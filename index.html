@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>2022 HD-17 Election Results & 2023 November Issue 1 in SD-24 (2024) Election Results</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/2023Issue1inSD24city_1.js"></script>
+        <script src="data/2023Issue1inSD24precinct_2.js"></script>
+        <script src="data/2022OhioHD17city_3.js"></script>
+        <script src="data/2022OhioHD17precinct_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleRoad_0');
+        map.getPane('pane_GoogleRoad_0').style.zIndex = 400;
+        var layer_GoogleRoad_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleRoad_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleRoad_0;
+        map.addLayer(layer_GoogleRoad_0);
+        function pop_2023Issue1inSD24city_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">City</th>\
+                        <td>' + (feature.properties['MergeField'] !== null ? autolinker.link(feature.properties['MergeField'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Issue 1 Yes</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet4_Yes'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet4_Yes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Issue 1 No</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet4_No'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet4_No'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Margin</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet4_Margin'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet4_Margin'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_2023Issue1inSD24city_1_0(feature) {
+            switch(String(feature.properties['q2wHide_Issue 1 in 2024 SD-24 — Sheet4_Color'])) {
+                case '#2B2457':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,36,87,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#28497C':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,73,124,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#47729E':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(71,114,158,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#7D9CBB':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,156,187,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#B6C8D9':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(182,200,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#EBEEED':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,238,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#DEDEBD':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,222,189,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#BCBC83':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,188,131,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#8B8B54':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,139,84,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#5D5D2D':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(93,93,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#32320C':
+                    return {
+                pane: 'pane_2023Issue1inSD24city_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(50,50,12,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_2023Issue1inSD24city_1');
+        map.getPane('pane_2023Issue1inSD24city_1').style.zIndex = 401;
+        map.getPane('pane_2023Issue1inSD24city_1').style['mix-blend-mode'] = 'normal';
+        var layer_2023Issue1inSD24city_1 = new L.geoJson(json_2023Issue1inSD24city_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_2023Issue1inSD24city_1',
+            layerName: 'layer_2023Issue1inSD24city_1',
+            pane: 'pane_2023Issue1inSD24city_1',
+            onEachFeature: pop_2023Issue1inSD24city_1,
+            style: style_2023Issue1inSD24city_1_0,
+        });
+        bounds_group.addLayer(layer_2023Issue1inSD24city_1);
+        function pop_2023Issue1inSD24precinct_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Precinct</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet2_PrecName'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet2_PrecName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Issue 1 Yes</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet2_Yes'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet2_Yes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Issue 1 No</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet2_No'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet2_No'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Margin</th>\
+                        <td>' + (feature.properties['Issue 1 in 2024 SD-24 — Sheet2_Margin'] !== null ? autolinker.link(feature.properties['Issue 1 in 2024 SD-24 — Sheet2_Margin'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_2023Issue1inSD24precinct_2_0(feature) {
+            switch(String(feature.properties['q2wHide_Issue 1 in 2024 SD-24 — Sheet2_Color'])) {
+                case '#2B2457':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(43,36,87,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#28497C':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,73,124,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#47729E':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(71,114,158,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#7D9CBB':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(125,156,187,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#B6C8D9':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(182,200,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#EBEEED':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(235,238,237,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#DEDEBD':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,222,189,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#BCBC83':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(188,188,131,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#8B8B54':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,139,84,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#5D5D2D':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(93,93,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#32320C':
+                    return {
+                pane: 'pane_2023Issue1inSD24precinct_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(50,50,12,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_2023Issue1inSD24precinct_2');
+        map.getPane('pane_2023Issue1inSD24precinct_2').style.zIndex = 402;
+        map.getPane('pane_2023Issue1inSD24precinct_2').style['mix-blend-mode'] = 'normal';
+        var layer_2023Issue1inSD24precinct_2 = new L.geoJson(json_2023Issue1inSD24precinct_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_2023Issue1inSD24precinct_2',
+            layerName: 'layer_2023Issue1inSD24precinct_2',
+            pane: 'pane_2023Issue1inSD24precinct_2',
+            onEachFeature: pop_2023Issue1inSD24precinct_2,
+            style: style_2023Issue1inSD24precinct_2_0,
+        });
+        bounds_group.addLayer(layer_2023Issue1inSD24precinct_2);
+        function pop_2022OhioHD17city_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">City</th>\
+                        <td>' + (feature.properties['City'] !== null ? autolinker.link(feature.properties['City'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Troy Greenfield</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet3_Greenfield'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet3_Greenfield'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thomas Patton</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet3_Patton'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet3_Patton'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Margin</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet3_Margin'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet3_Margin'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_2022OhioHD17city_3_0(feature) {
+            switch(String(feature.properties['q2wHide_HD-17 by precinct — Sheet3_Color'])) {
+                case '#0645B4':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(6,69,180,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#1666CB':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(22,102,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#4389E3':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,137,227,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#86B6F2':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(134,182,242,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#B9D7FF':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(185,215,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#D3E7FF':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,231,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#E1EFFF':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,239,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#A12EF6':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(161,46,246,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#FFDFE1':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,223,225,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#FFCCD0':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,204,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#F2B3BE':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,179,190,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#E27F90':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,127,144,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#CC2F4A':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,47,74,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#D40000':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#AA0000':
+                    return {
+                pane: 'pane_2022OhioHD17city_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(170,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_2022OhioHD17city_3');
+        map.getPane('pane_2022OhioHD17city_3').style.zIndex = 403;
+        map.getPane('pane_2022OhioHD17city_3').style['mix-blend-mode'] = 'normal';
+        var layer_2022OhioHD17city_3 = new L.geoJson(json_2022OhioHD17city_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_2022OhioHD17city_3',
+            layerName: 'layer_2022OhioHD17city_3',
+            pane: 'pane_2022OhioHD17city_3',
+            onEachFeature: pop_2022OhioHD17city_3,
+            style: style_2022OhioHD17city_3_0,
+        });
+        bounds_group.addLayer(layer_2022OhioHD17city_3);
+        function pop_2022OhioHD17precinct_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Troy Greenfield</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet1_Greenfield'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet1_Greenfield'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Thomas Patton</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet1_Patton'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet1_Patton'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Margin</th>\
+                        <td>' + (feature.properties['HD-17 by precinct — Sheet1_Margin'] !== null ? autolinker.link(feature.properties['HD-17 by precinct — Sheet1_Margin'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_2022OhioHD17precinct_4_0(feature) {
+            switch(String(feature.properties['q2wHide_HD-17 by precinct — Sheet1_Color'])) {
+                case '#0645B4':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(6,69,180,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#1666CB':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(22,102,203,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#4389E3':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,137,227,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#86B6F2':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(134,182,242,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#B9D7FF':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(185,215,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#D3E7FF':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,231,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#E1EFFF':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,239,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#A12EF6':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(161,46,246,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#FFDFE1':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,223,225,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#FFCCD0':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,204,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#F2B3BE':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(242,179,190,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#E27F90':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,127,144,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#CC2F4A':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,47,74,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#D40000':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case '#AA0000':
+                    return {
+                pane: 'pane_2022OhioHD17precinct_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(170,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_2022OhioHD17precinct_4');
+        map.getPane('pane_2022OhioHD17precinct_4').style.zIndex = 404;
+        map.getPane('pane_2022OhioHD17precinct_4').style['mix-blend-mode'] = 'normal';
+        var layer_2022OhioHD17precinct_4 = new L.geoJson(json_2022OhioHD17precinct_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_2022OhioHD17precinct_4',
+            layerName: 'layer_2022OhioHD17precinct_4',
+            pane: 'pane_2022OhioHD17precinct_4',
+            onEachFeature: pop_2022OhioHD17precinct_4,
+            style: style_2022OhioHD17precinct_4_0,
+        });
+        bounds_group.addLayer(layer_2022OhioHD17precinct_4);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>2022 HD-17 Election Results & 2023 November Issue 1 in SD-24 (2024) Election Results</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Source: Ohio Secretary of State, Cuyahoga County Board of Elections<br />Follow: @OPoliticsGuru';
+            };
+            abstract.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'2022 Ohio HD-17 (precinct)<br /><table><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield450.png" /></td><td>Greenfield+>45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield375451.png" /></td><td>Greenfield+37.5-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield303752.png" /></td><td>Greenfield+30-37.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield225303.png" /></td><td>Greenfield+22.5-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield152254.png" /></td><td>Greenfield+15-22.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield75155.png" /></td><td>Greenfield+7.5-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Greenfield0756.png" /></td><td>Greenfield+0-7.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Tie7.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton0758.png" /></td><td>Patton+0-7.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton75159.png" /></td><td>Patton+7.5-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton1522510.png" /></td><td>Patton+15-22.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton2253011.png" /></td><td>Patton+22.5-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton3037512.png" /></td><td>Patton+30-37.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton3754513.png" /></td><td>Patton+37.5-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17precinct_4_Patton4514.png" /></td><td>Patton+>45%</td></tr></table>': layer_2022OhioHD17precinct_4,'2022 Ohio HD-17 (city)<br /><table><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield450.png" /></td><td>Greenfield+>45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield375451.png" /></td><td>Greenfield+37.5-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield303752.png" /></td><td>Greenfield+30-37.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield225303.png" /></td><td>Greenfield+22.5-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield152254.png" /></td><td>Greenfield+15-22.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield75155.png" /></td><td>Greenfield+7.5-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Greenfield0756.png" /></td><td>Greenfield+0-7.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Tie7.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton0758.png" /></td><td>Patton+0-7.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton75159.png" /></td><td>Patton+7.5-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton1522510.png" /></td><td>Patton+15-22.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton2253011.png" /></td><td>Patton+22.5-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton3037512.png" /></td><td>Patton+30-37.5%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton3754513.png" /></td><td>Patton+37.5-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2022OhioHD17city_3_Patton4514.png" /></td><td>Patton+>45%</td></tr></table>': layer_2022OhioHD17city_3,'2023 Issue 1 in SD-24 (precinct)<br /><table><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Yes600.png" /></td><td>Yes+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Yes45601.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Yes30452.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Yes15303.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Yes0154.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_No0156.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_No15307.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_No30458.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_No45609.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24precinct_2_No6010.png" /></td><td>No+>60%</td></tr></table>': layer_2023Issue1inSD24precinct_2,'2023 Issue 1 in SD-24 (city)<br /><table><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Yes600.png" /></td><td>Yes+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Yes45601.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Yes30452.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Yes15303.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Yes0154.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_No0156.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_No15307.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_No30458.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_No45609.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/2023Issue1inSD24city_1_No6010.png" /></td><td>No+>60%</td></tr></table>': layer_2023Issue1inSD24city_1,"Google Road": layer_GoogleRoad_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
